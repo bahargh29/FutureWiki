@@ -7,6 +7,8 @@ The platform also allows users to write letters to their future selves and unloc
 
 The goal of FutureWiki is to become a personal digital knowledge base that grows together with its user.
 
+FutureWiki aims to provid a single place where users can preserve their past, organize their present, and plan their future.
+
 ---
 
 ## 2. Target Users
@@ -32,6 +34,7 @@ FutureWiki is designed for:
 ### Articles
 - Create an article
 - View articles
+- View a single article
 - Edit an article
 - Delete an article
 
@@ -53,9 +56,11 @@ FutureWiki is designed for:
 - Search articles by title
 - Search articles by content
 - Search by tags
+- Search categories
 
 ### Dashboard
 - Display total number of articles
+- Display total number of future letters
 - Display recent articles
 - Display upcoming future letters
 
@@ -72,6 +77,9 @@ FutureWiki is designed for:
 - Logging
 - API documentation
 - Scalable project structure
+- Database normalization
+- Consistent API response structure
+- Role-based authorization
 
 ---
 
