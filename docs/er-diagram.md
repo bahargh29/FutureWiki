@@ -12,7 +12,7 @@ Status: Approved
 
 ## Entity Relationship Diagram
 
-mermaid
+```mermaid
 erDiagram
 
     USER {
@@ -70,3 +70,4 @@ erDiagram
 
     ARTICLE ||--o{ ARTICLE_TAG : has
     TAG ||--o{ ARTICLE_TAG : has
+```
