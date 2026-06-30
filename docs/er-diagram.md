@@ -16,49 +16,49 @@ Status: Approved
 erDiagram
 
     USER {
-        BIGINT id PK
-        VARCHAR username
-        VARCHAR email
-        VARCHAR password
-        ENUM role
-        TIMESTAMP created_at
+        id PK
+        username
+        email
+        password
+        role
+        created_at
     }
 
     CATEGORY {
-        BIGINT id PK
-        VARCHAR name
-        BIGINT user_id FK
+        id PK
+        name
+        user_id FK
     }
 
     TAG {
-        BIGINT id PK
-        VARCHAR name
-        BIGINT user_id FK
+        id PK
+        name
+        user_id FK
     }
 
     ARTICLE {
-        BIGINT id PK
-        VARCHAR title
-        TEXT content
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-        BIGINT user_id FK
-        BIGINT category_id FK
+        id PK
+        title
+        content
+        created_at
+        updated_at
+        user_id FK
+        category_id FK
     }
 
     FUTURE_LETTER {
-        BIGINT id PK
-        VARCHAR title
-        TEXT content
-        TIMESTAMP unlock_at
-        BOOLEAN is_opened
-        TIMESTAMP created_at
-        BIGINT user_id FK
+        id PK
+        title
+        content
+        unlock_at
+        is_opened
+        created_at
+        user_id FK
     }
 
     ARTICLE_TAG {
-        BIGINT article_id FK
-        BIGINT tag_id FK
+        article_id FK
+        tag_id FK
     }
 
     USER ||--o{ ARTICLE : owns
