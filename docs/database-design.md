@@ -4,7 +4,7 @@
 
 Current Version: 1.0 
 
-Last Updated: 2026-06-28
+Last Updated: 2026-07-02
 
 Status: In Review
 
@@ -48,14 +48,14 @@ Reasons:
 
 ### users
 
-| Column    | Type   | Constraints |
-|-----------|--------|-------------|
-| id | BIGINT | PK, Auto Increment |
-| username | VARCHAR(50) | NOT NULL, UNIQUE |
-| email | VARCHAR(100) | NOT NULL, UNIQUE |
+| Column    | Type         | Constraints |
+|-----------|--------------|-------------|
+| id | BIGINT       | PK, Auto Increment |
+| username | VARCHAR(50)  | NOT NULL, UNIQUE |
+| email | VARCHAR(254) | NOT NULL, UNIQUE |
 | password | VARCHAR(100) | NOT NULL |
-| role | ENUM | NOT NULL |
-| created_at | TIMESTAMP | NOT NULL |
+| role | ENUM         | NOT NULL |
+| created_at | TIMESTAMP    | NOT NULL |
 
 ### articles
 
