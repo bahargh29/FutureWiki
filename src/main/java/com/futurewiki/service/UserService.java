@@ -5,6 +5,7 @@ import com.futurewiki.entity.User;
 import com.futurewiki.entity.enums.Role;
 import com.futurewiki.exception.DuplicateResourceException;
 import com.futurewiki.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,9 +14,12 @@ import java.time.LocalDateTime;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository
+            , PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void validateRegistration(String username, String email) {
@@ -42,9 +46,11 @@ public class UserService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
 
-        // فعلاً رمز را بدون Hash ذخیره می‌کنیم
-        // بعداً BCrypt اضافه می‌کنیم
-        user.setPassword(request.getPassword());
+        String encodedPassword =
+                passwordEncoder.encode(request.getPassword());
+
+        user.setPassword(encodedPassword);
+
         user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
 
