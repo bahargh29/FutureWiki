@@ -19,5 +19,5 @@ server:
   port: 8080
 
 jwt:
-  secret: "FutureWikiSuperSecretKeyForJwtAuthentication2026VeryLongKey123456"
+  secret: "yZFrKHkS8yel+HHZyJowDoSnjqi+QaCkAeLTVdAb1yA="
   expiration: 86400000
