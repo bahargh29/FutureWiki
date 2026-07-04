@@ -1,6 +1,9 @@
 package com.futurewiki.controller;
 
+import com.futurewiki.dto.request.LoginRequest;
 import com.futurewiki.dto.request.RegisterRequest;
+import com.futurewiki.dto.response.LoginResponse;
+import com.futurewiki.dto.response.MessageResponse;
 import com.futurewiki.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,9 +21,18 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@Valid @RequestBody RegisterRequest request) {
+    public MessageResponse register(
+            @Valid @RequestBody RegisterRequest request) {
 
-        userService.register(request);
+        return userService.register(request);
 
     }
+
+    @PostMapping("/login")
+    public LoginResponse login(
+            @Valid @RequestBody LoginRequest request) {
+
+        return userService.login(request);
+    }
+
 }
