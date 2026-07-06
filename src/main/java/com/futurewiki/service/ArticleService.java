@@ -5,11 +5,10 @@ import com.futurewiki.dto.request.UpdateArticleRequest;
 import com.futurewiki.dto.response.ArticleResponse;
 import com.futurewiki.entity.Article;
 import com.futurewiki.entity.User;
+import com.futurewiki.mapper.ArticleMapper;
 import com.futurewiki.repository.ArticleRepository;
 import com.futurewiki.repository.UserRepository;
 import com.futurewiki.service.security.CurrentUserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,14 +20,18 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final CurrentUserService currentUserService;
+    private final ArticleMapper articleMapper;
 
     public ArticleService(
             ArticleRepository articleRepository,
-            UserRepository userRepository, CurrentUserService currentUserService) {
+            UserRepository userRepository,
+            CurrentUserService currentUserService,
+            ArticleMapper articleMapper) {
 
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.currentUserService = currentUserService;
+        this.articleMapper = articleMapper;
     }
 
     public void createArticle(CreateArticleRequest request) {
@@ -53,16 +56,7 @@ public class ArticleService {
         List<Article> articles = articleRepository.findByOwner(owner);
 
         return articles.stream()
-                .map(article -> {
-                    ArticleResponse response = new ArticleResponse();
-
-                    response.setId(article.getId());
-                    response.setTitle(article.getTitle());
-                    response.setContent(article.getContent());
-                    response.setCreatedAt(article.getCreatedAt());
-                    response.setUpdatedAt(article.getUpdatedAt());
-                    return response;
-                })
+                .map(articleMapper::toResponse)
                 .toList();
     }
 
@@ -75,15 +69,7 @@ public class ArticleService {
                         .findByIdAndOwner(id, owner)
                         .orElseThrow(() -> new RuntimeException("Article not found"));
 
-        ArticleResponse response = new ArticleResponse();
-
-        response.setId(article.getId());
-        response.setTitle(article.getTitle());
-        response.setContent(article.getContent());
-        response.setCreatedAt(article.getCreatedAt());
-        response.setUpdatedAt(article.getUpdatedAt());
-
-        return response;
+        return articleMapper.toResponse(article);
     }
 
     public ArticleResponse updateArticle(
@@ -103,15 +89,7 @@ public class ArticleService {
 
         articleRepository.save(article);
 
-        ArticleResponse response = new ArticleResponse();
-
-        response.setId(article.getId());
-        response.setTitle(article.getTitle());
-        response.setContent(article.getContent());
-        response.setCreatedAt(article.getCreatedAt());
-        response.setUpdatedAt(article.getUpdatedAt());
-
-        return response;
+        return articleMapper.toResponse(article);
     }
 
     public void deleteArticle(Long id){
