@@ -7,6 +7,7 @@ import com.futurewiki.entity.Article;
 import com.futurewiki.entity.User;
 import com.futurewiki.repository.ArticleRepository;
 import com.futurewiki.repository.UserRepository;
+import com.futurewiki.service.security.CurrentUserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,24 +20,20 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
+    private final CurrentUserService currentUserService;
 
     public ArticleService(
             ArticleRepository articleRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository, CurrentUserService currentUserService) {
 
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
+        this.currentUserService = currentUserService;
     }
 
     public void createArticle(CreateArticleRequest request) {
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        String email = authentication.getName();
-
-        User owner = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User owner = currentUserService.getCurrentUser();
 
         Article article = new Article();
 
@@ -50,13 +47,8 @@ public class ArticleService {
     }
 
     public List<ArticleResponse> getMyArticles(){
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
 
-        String email = authentication.getName();
-
-        User owner = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User owner = currentUserService.getCurrentUser();
 
         List<Article> articles = articleRepository.findByOwner(owner);
 
@@ -76,13 +68,7 @@ public class ArticleService {
 
     public ArticleResponse getArticleById(Long id){
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        String email = authentication.getName();
-
-        User owner = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User owner = currentUserService.getCurrentUser();
 
         Article article =
                 articleRepository
@@ -104,13 +90,7 @@ public class ArticleService {
             Long id,
             UpdateArticleRequest request){
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        String email = authentication.getName();
-
-        User owner = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User owner = currentUserService.getCurrentUser();
 
         Article article =
                 articleRepository
@@ -136,13 +116,7 @@ public class ArticleService {
 
     public void deleteArticle(Long id){
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        String email = authentication.getName();
-
-        User owner = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User owner = currentUserService.getCurrentUser();
 
         Article article =
                 articleRepository
