@@ -103,4 +103,16 @@ public class ArticleService {
 
         articleRepository.delete(article);
     }
+
+    public List<ArticleResponse> searchArticles(String keyword) {
+
+        User owner = currentUserService.getCurrentUser();
+
+        List<Article> articles =
+                articleRepository.searchByOwnerAndKeyword(owner, keyword);
+
+        return articles.stream()
+                .map(articleMapper::toResponse)
+                .toList();
+    }
 }

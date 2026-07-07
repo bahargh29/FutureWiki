@@ -29,8 +29,14 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<ArticleResponse> getMyArticles() {
-        return articleService.getMyArticles();
+    public List<ArticleResponse> getArticles(
+            @RequestParam(required = false) String keyword) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return articleService.getMyArticles();
+        }
+
+        return articleService.searchArticles(keyword);
     }
 
     @GetMapping("/{id}")
@@ -55,4 +61,5 @@ public class ArticleController {
 
         articleService.deleteArticle(id);
     }
+
 }
