@@ -1,6 +1,7 @@
 package com.futurewiki.service.security;
 
 import com.futurewiki.entity.User;
+import com.futurewiki.exception.UserNotFoundException;
 import com.futurewiki.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,6 @@ public class CurrentUserService {
         String email = authentication.getName();
 
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
     }
 }

@@ -5,6 +5,7 @@ import com.futurewiki.dto.request.UpdateArticleRequest;
 import com.futurewiki.dto.response.ArticleResponse;
 import com.futurewiki.entity.Article;
 import com.futurewiki.entity.User;
+import com.futurewiki.exception.ArticleNotFoundException;
 import com.futurewiki.mapper.ArticleMapper;
 import com.futurewiki.repository.ArticleRepository;
 import com.futurewiki.repository.UserRepository;
@@ -67,7 +68,7 @@ public class ArticleService {
         Article article =
                 articleRepository
                         .findByIdAndOwner(id, owner)
-                        .orElseThrow(() -> new RuntimeException("Article not found"));
+                        .orElseThrow(ArticleNotFoundException::new);
 
         return articleMapper.toResponse(article);
     }
@@ -81,7 +82,7 @@ public class ArticleService {
         Article article =
                 articleRepository
                         .findByIdAndOwner(id, owner)
-                        .orElseThrow(() -> new RuntimeException("Article not found"));
+                        .orElseThrow(ArticleNotFoundException::new);
 
         article.setTitle(request.getTitle());
         article.setContent(request.getContent());
@@ -99,7 +100,7 @@ public class ArticleService {
         Article article =
                 articleRepository
                         .findByIdAndOwner(id, owner)
-                        .orElseThrow(() -> new RuntimeException("Article not found"));
+                        .orElseThrow(ArticleNotFoundException::new);
 
         articleRepository.delete(article);
     }

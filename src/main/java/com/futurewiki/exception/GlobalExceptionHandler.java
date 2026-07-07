@@ -40,4 +40,33 @@ public class GlobalExceptionHandler {
         return error;
     }
 
+    @ExceptionHandler(ArticleNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, Object> handleArticleNotFoundException(
+            ArticleNotFoundException ex) {
+
+        Map<String, Object> error = new LinkedHashMap<>();
+
+        error.put("timestamp", LocalDateTime.now());
+        error.put("status", 404);
+        error.put("error", "Not Found");
+        error.put("message", ex.getMessage());
+
+        return error;
+    }
+
+    @ExceptionHandler(ArticleNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, Object> handleUserNotFoundException(
+            UserNotFoundException ex) {
+
+        Map<String, Object> error = new LinkedHashMap<>();
+
+        error.put("timestamp", LocalDateTime.now());
+        error.put("status", 404);
+        error.put("error", "Not Found");
+        error.put("message", ex.getMessage());
+
+        return error;
+    }
 }
