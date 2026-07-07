@@ -5,6 +5,8 @@ import com.futurewiki.dto.request.UpdateArticleRequest;
 import com.futurewiki.dto.response.ArticleResponse;
 import com.futurewiki.service.ArticleService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +31,15 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<ArticleResponse> getArticles(
-            @RequestParam(required = false) String keyword) {
+    public Page<ArticleResponse> getArticles(
+            @RequestParam(required = false) String keyword,
+            Pageable pageable) {
 
         if (keyword == null || keyword.isBlank()) {
-            return articleService.getMyArticles();
+            return articleService.getMyArticles(pageable);
         }
 
-        return articleService.searchArticles(keyword);
+        return articleService.searchArticles(keyword, pageable);
     }
 
     @GetMapping("/{id}")

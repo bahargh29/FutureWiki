@@ -2,6 +2,8 @@ package com.futurewiki.repository;
 
 import com.futurewiki.entity.Article;
 import com.futurewiki.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,8 +26,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
         OR LOWER(a.content) LIKE LOWER(CONCAT('%', :keyword, '%'))
       )
     """)
-    List<Article> searchByOwnerAndKeyword(
+    Page<Article> searchByOwnerAndKeyword(
             @Param("owner") User owner,
-            @Param("keyword") String keyword);
+            @Param("keyword") String keyword,
+            Pageable pageable);
+
+    Page<Article> findByOwner(
+            User owner,
+            Pageable pageable
+    );
 
 }

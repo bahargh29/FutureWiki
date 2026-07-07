@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         return error;
     }
 
-    @ExceptionHandler(ArticleNotFoundException.class)
+    @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, Object> handleUserNotFoundException(
             UserNotFoundException ex) {

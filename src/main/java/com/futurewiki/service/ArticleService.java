@@ -10,6 +10,8 @@ import com.futurewiki.mapper.ArticleMapper;
 import com.futurewiki.repository.ArticleRepository;
 import com.futurewiki.repository.UserRepository;
 import com.futurewiki.service.security.CurrentUserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -50,15 +52,14 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
-    public List<ArticleResponse> getMyArticles(){
+    public Page<ArticleResponse> getMyArticles(Pageable pageable){
 
         User owner = currentUserService.getCurrentUser();
 
-        List<Article> articles = articleRepository.findByOwner(owner);
+        Page<Article> articles =
+                articleRepository.findByOwner(owner, pageable);
 
-        return articles.stream()
-                .map(articleMapper::toResponse)
-                .toList();
+        return articles.map(articleMapper::toResponse);
     }
 
     public ArticleResponse getArticleById(Long id){
@@ -105,15 +106,13 @@ public class ArticleService {
         articleRepository.delete(article);
     }
 
-    public List<ArticleResponse> searchArticles(String keyword) {
+    public Page<ArticleResponse> searchArticles(String keyword, Pageable pageable) {
 
         User owner = currentUserService.getCurrentUser();
 
-        List<Article> articles =
-                articleRepository.searchByOwnerAndKeyword(owner, keyword);
+        Page<Article> articles =
+                articleRepository.searchByOwnerAndKeyword(owner, keyword, pageable);
 
-        return articles.stream()
-                .map(articleMapper::toResponse)
-                .toList();
+        return articles.map(articleMapper::toResponse);
     }
 }
