@@ -1,4 +1,4 @@
-package com.futureWiki;
+package com.futurewiki;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
